@@ -1,0 +1,194 @@
+---
+// Dedicatoria.astro
+---
+
+<section class="py-8 px-4 relative">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex justify-center mb-3" id="flores-arriba-ded">
+      <img
+        src="/imagenes/corona2.png"
+        alt="Flores decorativas superiores"
+        class="w-20 sm:w-56 md:w-64 lg:w-72 h-auto object-contain"
+      />
+    </div>
+
+    <div class="text-center px-4">
+      <h2
+        class="font-charm text-xl sm:text-xl md:text-2xl text-[#eb8fa3] leading-relaxed"
+        id="texto-ded"
+      >
+        Después de tantos sueños e ilusiones, por fin ha llegado el día que
+        tanto he esperado… Mis XV años, y me encantaría compartir este momento
+        tan especial contigo.
+      </h2>
+    </div>
+
+    <div class="flex justify-between items-center px-4">
+      <img
+        src="/imagenes/mariposa.png"
+        alt="Mariposa decorativa izquierda"
+        id="mariposa-izq-ded"
+        class="w-10 sm:w-56 md:w-64 lg:w-72 h-auto object-contain"
+      />
+
+      <img
+        src="/imagenes/mariposa.png"
+        alt="Mariposa decorativa derecha"
+        id="mariposa-der-ded"
+        class="w-10 sm:w-56 md:w-64 lg:w-72 h-auto object-contain"
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Estado inicial — todo oculto
+    gsap.set("#flores-arriba-ded", { opacity: 0, y: -30 });
+    gsap.set("#texto-ded", { opacity: 0, y: 30 });
+    gsap.set("#mariposa-izq-ded", { opacity: 0, x: -60, rotation: -20 });
+    gsap.set("#mariposa-der-ded", {
+      opacity: 0,
+      x: 60,
+      rotation: 20,
+      scaleX: -1,
+    });
+
+    ScrollTrigger.create({
+      trigger: "#texto-ded",
+      start: "top 100%",
+      end: "top 20%",
+      onEnter: animarEntrada,
+      onLeaveBack: animarSalida,
+    });
+
+    function animarEntrada() {
+      const tl = gsap.timeline();
+
+      // Corona baja desde arriba + texto sube + mariposas entran — todo al mismo tiempo
+      tl.to(
+        "#flores-arriba-ded",
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+        },
+        0,
+      )
+
+        .to(
+          "#texto-ded",
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power2.out",
+          },
+          0,
+        )
+
+        // Mariposa izquierda entra desde la izquierda con giro suave
+        .to(
+          "#mariposa-izq-ded",
+          {
+            opacity: 1,
+            x: 0,
+            rotation: 0,
+            duration: 1.1,
+            ease: "back.out(1.5)",
+          },
+          0,
+        )
+
+        // Mariposa derecha entra desde la derecha con giro suave
+        .to(
+          "#mariposa-der-ded",
+          {
+            opacity: 1,
+            x: 0,
+            rotation: 0,
+            scaleX: -1,
+            duration: 1.1,
+            ease: "back.out(1.5)",
+          },
+          0,
+        );
+
+      // Flotado suave de mariposas una vez que entraron
+      tl.to(
+        "#mariposa-izq-ded",
+        {
+          y: -8,
+          rotation: 5,
+          duration: 2.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        },
+        1.2,
+      );
+
+      tl.to(
+        "#mariposa-der-ded",
+        {
+          y: -8,
+          rotation: -5,
+          duration: 2.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        },
+        1.2,
+      );
+    }
+
+    function animarSalida() {
+      gsap.killTweensOf(["#mariposa-izq-ded", "#mariposa-der-ded"]);
+
+      const tl = gsap.timeline();
+
+      tl.to(
+        ["#mariposa-izq-ded", "#mariposa-der-ded"],
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.3,
+          ease: "power2.in",
+        },
+        0,
+      )
+
+        .to(
+          "#texto-ded",
+          {
+            opacity: 0,
+            y: 30,
+            duration: 0.4,
+            ease: "power2.in",
+          },
+          0,
+        )
+
+        .to(
+          "#flores-arriba-ded",
+          {
+            opacity: 0,
+            y: -30,
+            duration: 0.4,
+            ease: "power2.in",
+          },
+          0.1,
+        );
+
+      // Reset mariposas para próxima entrada
+      tl.set("#mariposa-izq-ded", { x: -60, rotation: -20 });
+      tl.set("#mariposa-der-ded", { x: 60, rotation: 20, scaleX: -1 });
+    }
+  });
+</script>

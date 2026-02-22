@@ -1,0 +1,186 @@
+---
+// FechaEvento.astro
+---
+
+<section class="py-4 px-4">
+  <div class="max-w-2xl mx-auto text-center">
+    <!-- Flores centrales arriba -->
+    <div class="flex justify-center mb-8" id="flores-fecha">
+      <img
+        src="/imagenes/FlorSeparador.webp"
+        alt="Flores decorativas"
+        class="w-40 md:w-56 lg:w-64 h-auto"
+      />
+    </div>
+
+    <!-- Texto invitación -->
+    <div class="mb-4" id="texto-invitacion-container">
+      <div
+        class="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 px-4"
+      >
+        <div id="texto-invitacion" class="flex-shrink-0">
+          <p
+            class="font-charm text-2xl sm:text-3xl md:text-4xl text-[#b8860b] leading-relaxed text-center"
+          >
+            Acompáñanos este día<br />tan especial
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fecha -->
+    <div class="relative max-w-md mx-auto" id="fecha-evento">
+      <div class="flex items-center justify-center gap-4 md:gap-6">
+        <div class="flex flex-col items-center w-24 md:w-28">
+          <div class="w-full h-px bg-[#b8860b] mb-2"></div>
+          <span
+            class="font-charm text-xl md:text-lg text-[#eb8fa3] uppercase tracking-wider font-bold text-center"
+            >SÁBADO</span
+          >
+          <div class="w-full h-px bg-[#b8860b] mt-2"></div>
+        </div>
+
+        <div
+          class="flex items-center justify-center min-w-[80px] md:min-w-[100px]"
+        >
+          <span
+            class="font-charm text-7xl md:text-8xl text-[#b8860b] font-bold -ml-1"
+            >14</span
+          >
+        </div>
+
+        <div class="flex flex-col items-center w-24 md:w-28">
+          <div class="w-full h-px bg-[#b8860b] mb-2"></div>
+          <span
+            class="font-charm text-xl md:text-lg text-[#eb8fa3] uppercase tracking-wider font-bold text-center"
+            >MARZO</span
+          >
+          <div class="w-full h-px bg-[#b8860b] mt-2"></div>
+        </div>
+      </div>
+
+      <!-- Año -->
+      <div class="mt-2 flex justify-center" id="anio-evento">
+        <p
+          class="font-charm text-3xl md:text-4xl text-[#eb8fa3] font-bold -translate-x-2"
+        >
+          2026
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Estado inicial — todo invisible
+    gsap.set("#flores-fecha", { opacity: 0, scale: 0.8 });
+    gsap.set("#texto-invitacion", { opacity: 0, y: 20 });
+    gsap.set("#fecha-evento", { opacity: 0, scale: 0.9, y: 20 });
+    gsap.set("#anio-evento", { opacity: 0, y: 15 });
+
+    ScrollTrigger.create({
+      trigger: "#flores-fecha",
+      start: "top 85%",
+
+      onEnter: () => {
+        const tl = gsap.timeline();
+
+        // Todos al mismo tiempo con 0
+        tl.to(
+          "#flores-fecha",
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: "back.out(1.4)",
+          },
+          0,
+        )
+          .to(
+            "#texto-invitacion",
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "power3.out",
+            },
+            0,
+          )
+          .to(
+            "#fecha-evento",
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 1,
+              ease: "back.out(1.2)",
+            },
+            0,
+          )
+          .to(
+            "#anio-evento",
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "power3.out",
+            },
+            0,
+          );
+      },
+
+      onLeaveBack: () => {
+        const tl = gsap.timeline();
+
+        // Todos desaparecen al mismo tiempo
+        tl.to(
+          "#flores-fecha",
+          {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.4,
+            ease: "power2.in",
+          },
+          0,
+        )
+          .to(
+            "#texto-invitacion",
+            {
+              opacity: 0,
+              y: 20,
+              duration: 0.4,
+              ease: "power2.in",
+            },
+            0,
+          )
+          .to(
+            "#fecha-evento",
+            {
+              opacity: 0,
+              scale: 0.9,
+              y: 20,
+              duration: 0.4,
+              ease: "power2.in",
+            },
+            0,
+          )
+          .to(
+            "#anio-evento",
+            {
+              opacity: 0,
+              y: 15,
+              duration: 0.4,
+              ease: "power2.in",
+            },
+            0,
+          );
+      },
+    });
+  });
+</script>

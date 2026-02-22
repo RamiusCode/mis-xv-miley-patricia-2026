@@ -1,0 +1,156 @@
+---
+// Invitacion.astro
+---
+
+<section class="relative w-full overflow-hidden py-4 px-6">
+  <!-- Mariposas superiores -->
+  <div class="flex justify-between px-2" id="mariposas-top">
+    <img
+      src="/imagenes/mariposa.png"
+      alt=""
+      class="w-8 sm:w-10 h-auto object-contain"
+    />
+    <img
+      src="/imagenes/mariposa.png"
+      alt=""
+      class="w-8 sm:w-10 h-auto object-contain scale-x-[-1]"
+    />
+  </div>
+
+  <!-- Título Mis 15 años con corona -->
+  <div class="flex flex-col items-center mb-4" id="titulo-inv">
+    <img
+      src="/imagenes/Corona.webp"
+      alt="Corona"
+      class="w-28 sm:w-16 mb-4 h-auto object-contain mb-1"
+    />
+    <div class="flex items-center gap-2">
+      <span class="font-great-vibes text-4xl sm:text-5xl text-[#b8860b]"
+        >Mis</span
+      >
+      <span class="font-charm text-5xl sm:text-6xl font-bold text-[#b8860b]"
+        >15</span
+      >
+      <span class="font-great-vibes text-4xl sm:text-5xl text-[#b8860b]"
+        >años</span
+      >
+    </div>
+  </div>
+
+  <!-- Texto de invitación -->
+  <div class="max-w-sm mx-auto text-center" id="texto-inv">
+    <p
+      class="font-charm text-xl sm:text-lg text-[#eb8fa3] leading-relaxed mb-6"
+    >
+      Gracias a Dios tengo unos Padres a los que amo por darme la vida, y con el
+      orgullo de ser su hija... Hoy dejo de ser su niña consentida y paso a ser
+      su princesa querida Tienen el honor de invitarle a celebrar Los 15 años de
+      su hija
+    </p>
+
+    <!-- Nombre de la quinceañera -->
+    <div class="mb-4">
+      <p class="font-great-vibes text-3xl sm:text-4xl text-[#b8860b]">
+        Miley Patricia
+      </p>
+    </div>
+  </div>
+
+  <!-- Mariposas inferiores laterales -->
+  <!-- <div class="flex justify-between items-end px-2 mt-2" id="mariposas-bot">
+    <img
+      src="/imagenes/mariposa.png"
+      alt=""
+      class="w-8 sm:w-10 h-auto object-contain"
+    />
+    <img
+      src="/imagenes/mariposa.png"
+      alt=""
+      class="w-8 sm:w-10 h-auto object-contain scale-x-[-1]"
+    />
+  </div> -->
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Estado inicial
+    gsap.set("#mariposas-top", { opacity: 0, y: -20 });
+    gsap.set("#titulo-inv", { opacity: 0, scale: 0.9 });
+    gsap.set("#texto-inv", { opacity: 0, y: 20 });
+    gsap.set("#mariposas-bot", { opacity: 0, y: 20 });
+
+    ScrollTrigger.create({
+      trigger: "#titulo-inv",
+      start: "top 90%",
+
+      onEnter: () => {
+        const tl = gsap.timeline();
+
+        // Todos al mismo tiempo
+        tl.to(
+          "#mariposas-top",
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+          },
+          0,
+        )
+          .to(
+            "#titulo-inv",
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 1,
+              ease: "back.out(1.4)",
+            },
+            0,
+          )
+          .to(
+            "#texto-inv",
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "power3.out",
+            },
+            0,
+          )
+          .to(
+            "#mariposas-bot",
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "power3.out",
+            },
+            0,
+          );
+
+        // Flotado mariposas
+        gsap.to("#mariposas-top img, #mariposas-bot img", {
+          y: -6,
+          duration: 2.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+          stagger: 0.4,
+          delay: 0.8,
+        });
+      },
+
+      onLeaveBack: () => {
+        gsap.set("#mariposas-top", { opacity: 0, y: -20 });
+        gsap.set("#titulo-inv", { opacity: 0, scale: 0.9 });
+        gsap.set("#texto-inv", { opacity: 0, y: 20 });
+        gsap.set("#mariposas-bot", { opacity: 0, y: 20 });
+      },
+    });
+  });
+</script>

@@ -1,0 +1,151 @@
+---
+// src/layouts/Layout.astro
+import '../styles/global.css';
+export interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="es" class="m-0 p-0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/Coronadorada.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Forzar esquema de color claro -->
+    <meta name="color-scheme" content="light only">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title>{title}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Crimson+Text:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      /* Forzar modo claro - sobrescribir preferencias del sistema */
+      html {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        color-scheme: light only;
+        -webkit-color-scheme: light only;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        /* IMAGEN DE FONDO - Siempre visible debajo del video */
+        background-image: url('/imagenes/fondo.webp');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color-scheme: light only;
+        -webkit-color-scheme: light only;
+      }
+
+      /* Contenedor del video de fondo - ENCIMA de la imagen */
+      .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      .video-background video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        /* Opacidad del video para que se mezcle con la imagen de fondo */
+        opacity: 0.2; /* 50% de opacidad */
+      }
+
+      /* Overlay opcional para mejorar legibilidad del contenido */
+      .video-background::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.05); /* Ajusta la opacidad según necesites */
+        pointer-events: none;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        background: transparent !important;
+      }
+
+      /* Prevenir inversión de colores en modo oscuro */
+      * {
+        color-scheme: light only;
+      }
+
+      /* Forzar colores originales en todos los elementos */
+      *:not(svg):not(path) {
+        -webkit-filter: none !important;
+        filter: none !important;
+      }
+
+      /* Animación de fade-in para el video cuando carga */
+      .video-background video {
+        animation: fadeInVideo 1s ease-in;
+      }
+
+      @keyframes fadeInVideo {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 0.16; /* 50% de opacidad */
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen m-0 p-0">
+    <!-- VIDEO DE FONDO - Encima de la imagen de fondo del body -->
+    <div class="video-background">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+      >
+        <source src="/video/video.mp4" type="video/mp4">
+        <source src="/videos/fondo.webm" type="video/webm">
+      </video>
+    </div>
+
+    <main class="m-0 p-0 overflow-x-hidden">
+      <slot />
+    </main>
+  </body>
+</html>

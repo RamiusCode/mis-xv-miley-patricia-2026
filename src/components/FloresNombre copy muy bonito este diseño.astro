@@ -1,0 +1,125 @@
+---
+// HeroXV.astro - Sección principal Mis XV Años
+// Sin animaciones GSAP, sin mariposas
+// Solo Tailwind, sin CSS custom
+---
+
+<section class="relative text-black w-full overflow-x-hidden">
+    <!-- ====== FLORES ARRIBA ====== -->
+    <div class="relative w-full overflow-hidden" id="flores-arriba">
+        <img
+            src="/imagenes/FloresArriba.png"
+            alt="Flores decorativas"
+            class="w-full h-auto object-cover object-center block"
+        />
+
+        <!-- CORONA centrada sobre las flores -->
+        <div
+            class="absolute left-1/2 -translate-x-1/2 top-[50px] sm:top-16 md:top-12 lg:top-8 xl:top-4 z-50"
+            id="corona"
+        >
+            <img
+                src="/imagenes/Corona.webp"
+                alt="Corona de quinceañera"
+                class="w-24 h-auto sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 object-contain mx-auto"
+            />
+        </div>
+    </div>
+
+    <!-- ====== CONTENIDO PRINCIPAL ====== -->
+    <div
+        class="relative w-full -mt-26 sm:-mt-24 md:-mt-32 overflow-hidden px-4"
+    >
+        <div class="flex justify-center w-full">
+            <div class="text-center z-10 max-w-4xl w-full">
+                <!-- TÍTULO CURVO con SVG -->
+                <div
+                    class="relative text-center z-30 mb-4 w-full"
+                    id="titulo-container"
+                >
+                    <svg
+                        viewBox="0 0 400 140"
+                        class="w-64 sm:w-72 md:w-80 lg:w-96 xl:w-[420px] mx-auto"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <defs>
+                            <path
+                                id="curva-titulo"
+                                d="M 15,130 Q 200,-10 385,130"></path>
+                        </defs>
+
+                        <!-- EL GRAN DÍA LLEGÓ -->
+                        <text
+                            font-family="'Crimson Text', serif"
+                            font-size="28"
+                            font-weight="700"
+                            fill="#eb8fa3"
+                            letter-spacing="4"
+                        >
+                            <textPath
+                                href="#curva-titulo"
+                                startOffset="50%"
+                                text-anchor="middle"
+                            >
+                                EL GRAN DÍA LLEGÓ
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- NOMBRE (sin mariposas, texto directo) -->
+                <div
+                    class="flex items-center justify-center mb-8 w-full"
+                    id="nombre-container"
+                >
+                    <h2
+                        class="font-great-vibes text-7xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-[#D4AF37] tracking-wide"
+                        id="nombre-typewriter"
+                    >
+                        Ghisel
+                    </h2>
+                </div>
+
+                <!-- FOTO CON FLORES LATERALES -->
+                <div
+                    class="relative w-full overflow-visible"
+                    id="foto-container"
+                >
+                    <!-- Flores izquierda -->
+                    <div
+                        id="flores-foto-izq"
+                        class="absolute -left-4 sm:left-0 top-32 sm:top-24 md:top-20 lg:top-16 flex-shrink-0 z-30"
+                    >
+                        <img
+                            src="/imagenes/FlorLateral.webp"
+                            alt="Flores izquierda"
+                            class="w-12 h-auto sm:w-24 md:w-32 lg:w-40 object-contain"
+                        />
+                    </div>
+
+                    <!-- Flores derecha -->
+                    <div
+                        id="flores-foto-der"
+                        class="absolute -right-4 sm:right-0 top-32 sm:top-24 md:top-20 lg:top-16 flex-shrink-0 z-30"
+                    >
+                        <img
+                            src="/imagenes/FlorLateral.webp"
+                            alt="Flores derecha"
+                            class="w-12 h-auto sm:w-24 md:w-32 lg:w-40 object-contain scale-x-[-1]"
+                        />
+                    </div>
+
+                    <!-- Imagen quinceañera -->
+                    <div class="relative flex justify-center">
+                        <img
+                            src="/imagenes/xv.webp"
+                            alt="Foto de quinceañera"
+                            class="w-full max-w-[65vw] h-auto sm:max-w-[55vw] md:max-w-[45vw] lg:max-w-[35vw] xl:max-w-[30vw] object-contain"
+                            id="foto-quinceañera"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

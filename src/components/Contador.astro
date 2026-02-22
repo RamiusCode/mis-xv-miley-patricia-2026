@@ -1,0 +1,200 @@
+---
+// Contador.astro - Imagen de fondo conta.png con contador encima
+---
+
+<section class="relative w-full pt-10 overflow-hidden" id="seccion-contador">
+  <!-- IMAGEN DE FONDO conta.png -->
+  <div class="relative w-full">
+    <img
+      src="/imagenes/conta.png"
+      alt="Fondo contador"
+      class="w-full h-auto object-cover block"
+    />
+
+    <!-- CONTENIDO ENCIMA DE LA IMAGEN -->
+    <div
+      class="absolute inset-0 flex flex-col items-center justify-center translate-x-[18%] -translate-y-[25%] px-4"
+    >
+      <!-- Título -->
+      <div class="text-center mb-3 sm:mb-4" id="titulo-contador">
+        <h2
+          class="font-great-vibes text-2xl sm:text-3xl md:text-4xl text-[#D4AF37] drop-shadow-md"
+        >
+          Faltan pocos días
+        </h2>
+      </div>
+
+      <!-- Números del contador -->
+      <div
+        class="flex items-center justify-center gap-1 sm:gap-2 md:gap-4"
+        id="contador-container"
+      >
+        <!-- DÍAS -->
+        <div class="flex flex-col items-center grupo-numero">
+          <span
+            class="font-charm text-3xl sm:text-4xl md:text-5xl font-bold numero-dorado leading-none"
+            id="dias">00</span
+          >
+          <span
+            class="font-charm text-[9px] sm:text-[10px] md:text-xs text-[#D4AF37] uppercase tracking-widest mt-1"
+            >Días</span
+          >
+        </div>
+
+        <!-- Separador -->
+        <span
+          class="font-charm text-3xl sm:text-4xl md:text-5xl text-[#D4AF37] font-bold mb-4 opacity-80"
+          >:</span
+        >
+
+        <!-- HORAS -->
+        <div class="flex flex-col items-center grupo-numero">
+          <span
+            class="font-charm text-3xl sm:text-4xl md:text-5xl font-bold numero-dorado leading-none"
+            id="horas">00</span
+          >
+          <span
+            class="font-charm text-[9px] sm:text-[10px] md:text-xs text-[#D4AF37] uppercase tracking-widest mt-1"
+            >Horas</span
+          >
+        </div>
+
+        <!-- Separador -->
+        <span
+          class="font-charm text-3xl sm:text-4xl md:text-5xl text-[#D4AF37] font-bold mb-4 opacity-80"
+          >:</span
+        >
+
+        <!-- MINUTOS -->
+        <div class="flex flex-col items-center grupo-numero">
+          <span
+            class="font-charm text-3xl sm:text-4xl md:text-5xl font-bold numero-dorado leading-none"
+            id="minutos">00</span
+          >
+          <span
+            class="font-charm text-[9px] sm:text-[10px] md:text-xs text-[#D4AF37] uppercase tracking-widest mt-1"
+            >Minutos</span
+          >
+        </div>
+
+        <!-- Separador -->
+        <span
+          class="font-charm text-3xl sm:text-4xl md:text-5xl text-[#D4AF37] font-bold mb-4 opacity-80"
+          >:</span
+        >
+
+        <!-- SEGUNDOS -->
+        <div class="flex flex-col items-center grupo-numero">
+          <span
+            class="font-charm text-3xl sm:text-4xl md:text-5xl font-bold numero-dorado leading-none"
+            id="segundos">00</span
+          >
+          <span
+            class="font-charm text-[9px] sm:text-[10px] md:text-xs text-[#D4AF37] uppercase tracking-widest mt-1"
+            >Segundos</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // ══════════════════════════════════════
+    // 🔧 CAMBIA AQUÍ LA FECHA DEL EVENTO
+    const fechaEvento = new Date("2026-03-14T20:00:00").getTime();
+    // ══════════════════════════════════════
+
+    function actualizarContador() {
+      const ahora = new Date().getTime();
+      const diff = fechaEvento - ahora;
+
+      const diasEl = document.getElementById("dias");
+      const horasEl = document.getElementById("horas");
+      const minutosEl = document.getElementById("minutos");
+      const segundosEl = document.getElementById("segundos");
+
+      if (diff > 0) {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        if (diasEl) diasEl.textContent = String(d).padStart(2, "0");
+        if (horasEl) horasEl.textContent = String(h).padStart(2, "0");
+        if (minutosEl) minutosEl.textContent = String(m).padStart(2, "0");
+        if (segundosEl) segundosEl.textContent = String(s).padStart(2, "0");
+      } else {
+        [diasEl, horasEl, minutosEl, segundosEl].forEach((el) => {
+          if (el) el.textContent = "00";
+        });
+      }
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
+
+    // Estado inicial
+    gsap.set("#titulo-contador", { opacity: 0, y: -20 });
+    gsap.set("#contador-container", { opacity: 0, y: 20 });
+
+    ScrollTrigger.create({
+      trigger: "#seccion-contador",
+      start: "top 85%",
+
+      onEnter: () => {
+        const tl = gsap.timeline();
+        tl.to(
+          "#titulo-contador",
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+          },
+          0,
+        ).to(
+          "#contador-container",
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "back.out(1.3)",
+          },
+          0,
+        );
+      },
+
+      onLeaveBack: () => {
+        gsap.set("#titulo-contador", { opacity: 0, y: -20 });
+        gsap.set("#contador-container", { opacity: 0, y: 20 });
+      },
+    });
+
+    // Pulso sutil en los números
+    gsap.to(".grupo-numero", {
+      scale: 1.04,
+      duration: 2.5,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+      stagger: 0.3,
+    });
+  });
+</script>
+
+<style>
+  .numero-dorado {
+    background: linear-gradient(135deg, #d4af37 0%, #f0d060 50%, #d4af37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.4));
+  }
+</style>

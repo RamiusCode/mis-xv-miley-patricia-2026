@@ -1,0 +1,206 @@
+---
+// Direccion.astro
+---
+
+<section class="pt-2 px-4 relative">
+  <div class="max-w-xl mx-auto text-center relative">
+    <!-- Flores centrales arriba -->
+    <div class="flex justify-center mb-8">
+      <img
+        src="/imagenes/FlorSeparador.webp"
+        alt="Flores decorativas"
+        class="w-40 md:w-56 lg:w-64 h-auto"
+      />
+    </div>
+
+    <div class="mb-2" id="titulo-direccion">
+      <h2
+        class="font-charm text-2xl md:text-3xl text-[#D4AF37] font-bold tracking-wide"
+      >
+        Dirección
+      </h2>
+    </div>
+
+    <!-- Icono casa con mariposas -->
+    <div
+      class="flex justify-center items-center gap-4 md:gap-6 mb-4"
+      id="icono-direccion"
+    >
+      <!-- Mariposa izquierda -->
+      <div class="mariposa-flotante flex items-center" id="mariposa-dir-izq">
+        <img
+          src="/imagenes/mariposa.png"
+          alt="Mariposa"
+          class="w-10 h-10 object-contain"
+        />
+      </div>
+
+      <!-- Casa con filtro rosa -->
+      <img
+        src="/imagenes/casa.png"
+        alt="Icono de dirección"
+        class="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain"
+        style="filter: invert(67%) sepia(30%) saturate(500%) hue-rotate(300deg) brightness(1.1);"
+      />
+
+      <!-- Mariposa derecha -->
+      <div class="mariposa-flotante flex items-center" id="mariposa-dir-der">
+        <img
+          src="/imagenes/mariposa.png"
+          alt="Mariposa"
+          class="w-10 h-10 object-contain scale-x-[-1]"
+        />
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="mb-4" id="info-direccion">
+      <h3 class="font-charm text-xl md:text-2xl text-[#D4AF37] font-bold mb-2">
+        Domicilio particular
+      </h3>
+      <p
+        class="font-charm text-lg md:text-xl text-[#eb8fa3] leading-relaxed mb-3"
+      >
+        Radial 27 Calle Los Guapos N.º 105
+      </p>
+      <p class="font-charm text-xl md:text-2xl text-[#D4AF37] font-bold">
+        Hora: 20:00
+      </p>
+    </div>
+
+    <!-- Botón imagen dire.png -->
+    <div class="flex justify-center" id="boton-ubicacion">
+      <a
+        href="https://maps.app.goo.gl/hutTiYGn5aC59XACA"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:scale-105 transition-transform duration-200 inline-block"
+      >
+        <img
+          src="/imagenes/ubi.png"
+          alt="Ver Ubicación"
+          class="w-44 sm:w-52 md:w-60 h-auto object-contain"
+        />
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Estado inicial
+    gsap.set("#titulo-direccion", { opacity: 0, y: -15 });
+    gsap.set("#icono-direccion", { opacity: 0, scale: 0.8 });
+    gsap.set("#mariposa-dir-izq", { opacity: 0, x: -30 });
+    gsap.set("#mariposa-dir-der", { opacity: 0, x: 30 });
+    gsap.set("#info-direccion", { opacity: 0, y: 20 });
+    gsap.set("#boton-ubicacion", { opacity: 0, y: 15 });
+
+    ScrollTrigger.create({
+      trigger: "#icono-direccion",
+      start: "top 85%",
+
+      onEnter: () => {
+        const tl = gsap.timeline();
+
+        // Todos al mismo tiempo
+        tl.to(
+          "#titulo-direccion",
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+          },
+          0,
+        )
+          .to(
+            "#icono-direccion",
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 1,
+              ease: "back.out(1.5)",
+            },
+            0,
+          )
+          .to(
+            "#mariposa-dir-izq",
+            {
+              opacity: 1,
+              x: 0,
+              duration: 1,
+              ease: "power3.out",
+            },
+            0,
+          )
+          .to(
+            "#mariposa-dir-der",
+            {
+              opacity: 1,
+              x: 0,
+              duration: 1,
+              ease: "power3.out",
+            },
+            0,
+          )
+          .to(
+            "#info-direccion",
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "power3.out",
+            },
+            0,
+          )
+          .to(
+            "#boton-ubicacion",
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "back.out(1.3)",
+            },
+            0,
+          );
+
+        // Flotado mariposas
+        gsap.to("#mariposa-dir-izq", {
+          y: -15,
+          x: 5,
+          rotation: 5,
+          duration: 3,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+          delay: 0.5,
+        });
+        gsap.to("#mariposa-dir-der", {
+          y: -15,
+          x: -5,
+          rotation: -5,
+          duration: 3.2,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+          delay: 0.7,
+        });
+      },
+
+      onLeaveBack: () => {
+        gsap.set("#titulo-direccion", { opacity: 0, y: -15 });
+        gsap.set("#icono-direccion", { opacity: 0, scale: 0.8 });
+        gsap.set("#mariposa-dir-izq", { opacity: 0, x: -30 });
+        gsap.set("#mariposa-dir-der", { opacity: 0, x: 30 });
+        gsap.set("#info-direccion", { opacity: 0, y: 20 });
+        gsap.set("#boton-ubicacion", { opacity: 0, y: 15 });
+      },
+    });
+  });
+</script>
